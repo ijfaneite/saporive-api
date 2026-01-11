@@ -14,7 +14,6 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Asesor" (
     "idAsesor" TEXT NOT NULL,
-    "CodAsesor" TEXT NOT NULL,
     "Asesor" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -91,7 +90,16 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Asesor_idAsesor_key" ON "Asesor"("idAsesor");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Producto_idProducto_key" ON "Producto"("idProducto");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Cliente_Rif_key" ON "Cliente"("Rif");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Pedido_idPedido_key" ON "Pedido"("idPedido");
 
 -- AddForeignKey
 ALTER TABLE "Cliente" ADD CONSTRAINT "Cliente_idAsesor_fkey" FOREIGN KEY ("idAsesor") REFERENCES "Asesor"("idAsesor") ON DELETE RESTRICT ON UPDATE CASCADE;

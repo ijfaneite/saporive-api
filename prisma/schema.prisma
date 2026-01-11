@@ -20,8 +20,7 @@ model User {
 }
 
 model Asesor {
-  idAsesor  String @id @default(uuid())
-  CodAsesor String @unique
+  idAsesor  String    @id @unique
   Asesor    String
   clientes  Cliente[]
   pedidos   Pedido[]
@@ -32,7 +31,7 @@ model Asesor {
 }
 
 model Producto {
-  idProducto String    @id @default(uuid())
+  idProducto String    @id @unique
   Producto   String
   Precio     Float
   detallesPedido DetallePedido[] // Add this to link Producto to DetallePedido
@@ -43,7 +42,7 @@ model Producto {
 }
 
 model Cliente {
-  idCliente  String    @id @default(uuid())
+  idCliente  String    @id
   Rif        String    @unique
   Cliente    String
   Zona       String
@@ -57,7 +56,7 @@ model Cliente {
 }
 
 model Pedido {
-  idPedido    String    @id @default(uuid())
+  idPedido    String    @id @unique
   fechaPedido DateTime
   totalPedido Float
   idAsesor    String
