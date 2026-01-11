@@ -1,4 +1,4 @@
 {
-    "python.defaultInterpreterPath": "./venv/scripts/python.exe",
-    "python.analysis.extraPaths": ["./venv/lib/site-packages"]
+    "python.defaultInterpreterPath": "/home/ivan/Documentos/sapori/saporive-api/.venv/scripts/python.exe",
+    "python.analysis.extraPaths": ["/home/ivan/Documentos/sapori/saporive-api/.venv/lib/site-packages"]
 }
