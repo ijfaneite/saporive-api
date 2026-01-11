@@ -38,20 +38,18 @@ class AsesorBase(BaseModel):
     updatedBy: str | None = None
 
 
-class AsesorCreate(AsesorBase):
+class Asesor(AsesorBase):
+    idAsesor: str   # Prisma returns 'id' by default for primary keys
+
+    class Config:
+        from_attributes = True
+
+class AsesorCreate(Asesor):
     # These fields are set automatically by the backend, so they should not be required on creation
     createdAt: datetime = Field(None, exclude=True)
     updatedAt: datetime = Field(None, exclude=True)
     createdBy: str = Field(None, exclude=True)
     updatedBy: str = Field(None, exclude=True)
-
-
-class Asesor(AsesorBase):
-    idAsesor: str = Field(..., alias='id')  # Prisma returns 'id' by default for primary keys
-
-    class Config:
-        from_attributes = True
-
 
 class ProductoBase(BaseModel):
     Producto: str

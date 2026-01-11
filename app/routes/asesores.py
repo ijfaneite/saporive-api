@@ -23,6 +23,7 @@ async def create_asesor(
 ):
     try:
         created_asesor = await db.asesor.create(data={
+            "idAsesor": asesor.idAsesor,
             "Asesor": asesor.Asesor,
             "createdBy": current_user.username, # Set createdBy
             "updatedBy": current_user.username  # Set updatedBy initially
