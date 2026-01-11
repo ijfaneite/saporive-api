@@ -1,3 +1,4 @@
+import pytz
 from datetime import datetime, timedelta
 from typing import Annotated
 
@@ -10,6 +11,7 @@ from prisma import Prisma
 from passlib.context import CryptContext
 
 from app import schemas
+
 
 router = APIRouter()
 
@@ -112,29 +114,23 @@ async def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/users/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-async def register_user(user_in: schemas.UserCreate, db: Prisma = Depends(get_prisma_client)):
-    # Check if user already exists
-    existing_user = await db.user.find_unique(where={"username": user_in.username})
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Username already registered"
-        )
-    
-    # Hash the password
-    hashed_password = get_password_hash(user_in.password)
-
-    # Create the user in the database
+async def create_user(user: schemas.UserCreate, db: Prisma = Depends(get_prisma_client)):
+    db_user = await db.user.find_unique(where={"username": user.username})
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+    hashed_password = get_password_hash(user.password)
+    user_data = user.dict()
+    user_data.pop("password") # Remove password from the dictionary
     new_user = await db.user.create(
         data={
-            "username": user_in.username,
-            "email": user_in.email,
+            **user_data,
             "hashedPassword": hashed_password,
-            "createdAt": datetime.utcnow(),
-            "updatedAt": datetime.utcnow(),
-            "createdBy": user_in.username, # User creates themselves
-            "updatedBy": user_in.username # User creates themselves
         }
     )
-    # Return a schemas.User object (without password)
+
+    # Convert UTC timestamps to Caracas timezone
+    caracas_tz = pytz.timezone("America/Caracas")
+    new_user.createdAt = new_user.createdAt.astimezone(caracas_tz)
+    new_user.updatedAt = new_user.updatedAt.astimezone(caracas_tz)
+    
     return new_user

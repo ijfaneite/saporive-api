@@ -4,7 +4,7 @@
 source .venv/bin/activate
 
 echo "Ejecutando prisma generate..."
-prisma generate
+python -m prisma db push
 
 if [ $? -eq 0 ]; then
   echo "prisma generate completado exitosamente."
@@ -14,7 +14,7 @@ else
 fi
 
 # Define un nombre para la migración. Puedes cambiarlo si lo deseas.
-MIGRATION_NAME="setup_all_models"
+MIGRATION_NAME="db"
 
 echo "Ejecutando prisma migrate dev --name ${MIGRATION_NAME}..."
 prisma migrate dev --name "${MIGRATION_NAME}"
