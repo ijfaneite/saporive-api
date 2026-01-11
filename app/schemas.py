@@ -30,6 +30,7 @@ class TokenData(BaseModel):
 
 
 class AsesorBase(BaseModel):
+    CodAsesor:str
     Asesor: str
     # Add timestamps and audit fields to AsesorBase
     createdAt: datetime | None = None
@@ -47,7 +48,7 @@ class AsesorCreate(AsesorBase):
 
 
 class Asesor(AsesorBase):
-    idAsesor: str = Field(..., alias='id')  # Prisma returns 'id' by default for primary keys
+    idAsesor: str  # Prisma returns 'id' by default for primary keys
 
     class Config:
         from_attributes = True

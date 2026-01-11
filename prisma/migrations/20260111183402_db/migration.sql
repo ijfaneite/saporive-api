@@ -14,6 +14,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Asesor" (
     "idAsesor" TEXT NOT NULL,
+    "CodAsesor" TEXT NOT NULL,
     "Asesor" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

@@ -9,9 +9,16 @@ from dotenv import load_dotenv
 import os
 from prisma import Prisma
 from passlib.context import CryptContext
+import time
 
 from app import schemas
 
+os.environ['TZ'] = 'America/Caracas'
+if hasattr(time, 'tzset'):
+    time.tzset() # Solo necesario en Linux/Mac
+
+caracas_tz = pytz.timezone("America/Caracas")
+hora_local = datetime.now(caracas_tz)
 
 router = APIRouter()
 
@@ -129,8 +136,8 @@ async def create_user(user: schemas.UserCreate, db: Prisma = Depends(get_prisma_
     )
 
     # Convert UTC timestamps to Caracas timezone
-    caracas_tz = pytz.timezone("America/Caracas")
-    new_user.createdAt = new_user.createdAt.astimezone(caracas_tz)
-    new_user.updatedAt = new_user.updatedAt.astimezone(caracas_tz)
-    
+    #new_user.createdAt = new_user.createdAt.astimezone(caracas_tz)
+    #new_user.updatedAt = new_user.updatedAt.astimezone(caracas_tz)
+    new_user.createdAt = hora_local
+    new_user.updatedAt = hora_local
     return new_user

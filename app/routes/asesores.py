@@ -23,6 +23,7 @@ async def create_asesor(
 ):
     try:
         created_asesor = await db.asesor.create(data={
+            "CodAsesor": asesor.CodAsesor,
             "Asesor": asesor.Asesor,
             "createdBy": current_user.username, # Set createdBy
             "updatedBy": current_user.username  # Set updatedBy initially
@@ -47,7 +48,7 @@ async def read_asesor(
     db: Prisma = Depends(get_prisma_client),
     current_user: schemas.User = Depends(get_current_active_user) # Add dependency
 ):
-    asesor = await db.asesor.find_unique(where={'idAsesor': asesor_id})
+    asesor = await db.asesor.find_unique(where={'CodAsesor': asesor_id})
     if asesor is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asesor not found")
     return asesor
@@ -62,8 +63,9 @@ async def update_asesor(
 ):
     try:
         updated_asesor = await db.asesor.update(
-            where={'idAsesor': asesor_id},
+            where={'CodAsesor': asesor_id},
             data={
+                'CodAsesor': asesor.CodAsesor,
                 'Asesor': asesor.Asesor,
                 "updatedBy": current_user.username # Set updatedBy
             }
@@ -80,7 +82,7 @@ async def delete_asesor(
     current_user: schemas.User = Depends(get_current_active_user) # Add dependency
 ):
     try:
-        await db.asesor.delete(where={'idAsesor': asesor_id})
+        await db.asesor.delete(where={'CodAsesor': asesor_id})
         return
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asesor not found or error during delete")

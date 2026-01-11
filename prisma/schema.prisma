@@ -20,7 +20,8 @@ model User {
 }
 
 model Asesor {
-  idAsesor  String    @id @default(uuid())
+  idAsesor  String @id @default(uuid())
+  CodAsesor String @unique
   Asesor    String
   clientes  Cliente[]
   pedidos   Pedido[]
