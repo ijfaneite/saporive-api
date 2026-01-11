@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
 
 
@@ -12,6 +12,12 @@ class User(BaseModel):  # Assuming this is the schema for the User model (from a
     # Add timestamps for the User model
     createdAt: datetime
     updatedAt: datetime
+
+
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
 
 
 class Token(BaseModel):
