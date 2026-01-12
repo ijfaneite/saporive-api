@@ -70,7 +70,7 @@ class ProductoCreate(ProductoBase):
 
 
 class Producto(ProductoBase):
-    idProducto: str = Field(..., alias='id')
+    idProducto: str 
 
     class Config:
         from_attributes = True
@@ -97,7 +97,7 @@ class ClienteCreate(ClienteBase):
 
 
 class Cliente(ClienteBase):
-    idCliente: str = Field(..., alias='id')
+    idCliente: str 
     asesor: Asesor | None = None  # This will be the related Asesor object
 
     class Config:
@@ -120,7 +120,7 @@ class PedidoCreate(PedidoBase):
 
 
 class Pedido(PedidoBase):
-    idPedido: str = Field(..., alias='id')
+    idPedido: str 
     asesor: Asesor | None = None
     cliente: Cliente | None = None # Added cliente to Pedido
     createdAt: datetime
