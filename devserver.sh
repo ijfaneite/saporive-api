@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 
 # Activar el entorno virtual
 rm -rf .venv ~/.cache/pip ~/.cache/prisma-python
