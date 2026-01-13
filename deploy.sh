@@ -1,4 +1,2 @@
-pip install -r requirements.txt
-
-source .venv/bin/activate
-prisma generate
+# Ahora (debe ser así):
+pip install -r requirements.txt && prisma py fetch && prisma generate
