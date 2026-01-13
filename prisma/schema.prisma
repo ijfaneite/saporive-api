@@ -4,9 +4,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator py {
-  provider             = "prisma-client-py"
-  recursive_type_depth = 5
+generator client {
+  provider = "prisma-client-py"
+  interface = "asyncio"
+  binaryTargets = ["native"] 
 }
 
 model User {
