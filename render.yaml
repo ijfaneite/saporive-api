@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: saporive-api
+    buildCommand: "pip install -r requirements.txt && prisma py fetch && prisma generate"
+    startCommand: "gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app"
