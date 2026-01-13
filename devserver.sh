@@ -1,4 +1,9 @@
 #!/bin/bash
+
+
+
+source .venv/bin/activate
+
 # Forzar la zona horaria a nivel de sistema para este proceso
 export TZ="America/Caracas"
 
