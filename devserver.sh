@@ -38,3 +38,4 @@ export TZ="America/Caracas"
 
 # Tu comando de siempre para correr el server
 #uvicorn main:app --host localhost --port 8000 --reload
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
