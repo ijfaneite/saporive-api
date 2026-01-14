@@ -8,7 +8,8 @@ from jose import JWTError, jwt
 from dotenv import load_dotenv
 import os
 from prisma import Prisma
-from passlib.context import CryptContext
+# Cambiamos passlib por pwdlib
+from pwdlib import PasswordHash
 import time
 
 from app import schemas
@@ -33,8 +34,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY environment variable not set")
 
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Configuración de hashing moderna con pwdlib
+password_helper = PasswordHash.recommended()
 
 # OAuth2 scheme for token authentication
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -48,11 +49,12 @@ async def get_prisma_client():
     finally:
         await db.disconnect()
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+# Nuevas funciones de contraseña usando pwdlib
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return password_helper.verify(plain_password, hashed_password)
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
+def get_password_hash(password: str) -> str:
+    return password_helper.hash(password)
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -125,9 +127,11 @@ async def create_user(user: schemas.UserCreate, db: Prisma = Depends(get_prisma_
     db_user = await db.user.find_unique(where={"username": user.username})
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
+    
     hashed_password = get_password_hash(user.password)
     user_data = user.dict()
-    user_data.pop("password") # Remove password from the dictionary
+    user_data.pop("password") 
+    
     new_user = await db.user.create(
         data={
             **user_data,
@@ -135,9 +139,6 @@ async def create_user(user: schemas.UserCreate, db: Prisma = Depends(get_prisma_
         }
     )
 
-    # Convert UTC timestamps to Caracas timezone
-    #new_user.createdAt = new_user.createdAt.astimezone(caracas_tz)
-    #new_user.updatedAt = new_user.updatedAt.astimezone(caracas_tz)
     new_user.createdAt = hora_local
     new_user.updatedAt = hora_local
     return new_user
