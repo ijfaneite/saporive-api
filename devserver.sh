@@ -3,6 +3,7 @@
 # Activar el entorno virtual
 rm -rf .venv ~/.cache/pip ~/.cache/prisma-python
 python3.13 -m venv .venv 
+
 source .venv/bin/activate
 
 pip install --upgrade pip setuptools wheel && pip install --no-cache-dir  -U -r requirements.txt && prisma generate && prisma py fetch && prisma db push
