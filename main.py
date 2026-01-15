@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 from app.routes import auth
 from app.routes.asesores import router as asesores_router
@@ -6,17 +5,36 @@ from app.routes.productos import router as productos_router
 from app.routes.clientes import router as clientes_router
 from app.routes.pedidos import router as pedidos_router
 from app.routes.detalle_pedidos import router as detalle_pedidos_router
+from fastapi.middleware.cors import CORSMiddleware # Importación necesaria
 
 import os
 import time
 
-# Esto asegura que incluso dentro del contenedor o VPS use la hora de Venezuela
+# Configuración de zona horaria
 os.environ['TZ'] = 'America/Caracas'
 if hasattr(time, 'tzset'):
     time.tzset()
     
 app = FastAPI()
 
+# --- CONFIGURACIÓN DE CORS ---
+# Define aquí las URLs de tu frontend (Next.js suele ser http://localhost:3000)
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    # Agrega aquí la URL de producción cuando la tengas (ej. https://tu-app.vercel.app)
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, # Permite los orígenes definidos arriba
+    allow_credentials=True,
+    allow_methods=["*"], # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"], # Permite todos los encabezados (Authorization, Content-Type, etc.)
+)
+# -----------------------------
+
+# Registro de rutas (routers)
 app.include_router(auth.router)
 app.include_router(asesores_router, tags=["Asesores"])
 app.include_router(productos_router, tags=["Productos"])
