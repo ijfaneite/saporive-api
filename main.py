@@ -17,30 +17,13 @@ if hasattr(time, 'tzset'):
     
 app = FastAPI()
 
-# --- CONFIGURACIÓN DE CORS ---
-#Lista de orígenes permitidos
-origins = [
-    "http://localhost:3000",
-    # Esta es la URL de tu entorno de Cloud Workstations que aparece en el error:
-    "https://9000-firebase-studio-1768458030600.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev/login?monospaceUid=286635&embedded=0",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, 
+    allow_origins=["*"],  # Permite cualquier URL
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Permite todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
 )
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins, # Permite los orígenes definidos arriba
-    allow_credentials=True,
-    allow_methods=["*"], # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"], # Permite todos los encabezados (Authorization, Content-Type, etc.)
-)
-# -----------------------------
 
 # Registro de rutas (routers)
 app.include_router(auth.router)
