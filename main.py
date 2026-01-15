@@ -18,12 +18,20 @@ if hasattr(time, 'tzset'):
 app = FastAPI()
 
 # --- CONFIGURACIÓN DE CORS ---
-# Define aquí las URLs de tu frontend (Next.js suele ser http://localhost:3000)
+#Lista de orígenes permitidos
 origins = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    # Agrega aquí la URL de producción cuando la tengas (ej. https://tu-app.vercel.app)
+    # Esta es la URL de tu entorno de Cloud Workstations que aparece en el error:
+    "https://6000-firebase-studio-1768458030600.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
 ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.add_middleware(
     CORSMiddleware,
