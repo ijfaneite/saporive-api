@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "INSTALAR TODAS LAS DEPENDENCIAS...."
+pip install -r requirements.txt
 
 # Activar zona horaria
 export TZ="America/Caracas"
