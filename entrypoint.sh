@@ -17,4 +17,4 @@ echo "Ejecutando migraciones..."
 prisma migrate deploy || echo "No hay migraciones nuevas o ya se aplicaron."
 
 echo "Iniciando servidor con Gunicorn..."
-exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
