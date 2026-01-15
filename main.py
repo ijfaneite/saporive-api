@@ -22,7 +22,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     # Esta es la URL de tu entorno de Cloud Workstations que aparece en el error:
-    "https://6000-firebase-studio-1768458030600.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
+    "https://9000-firebase-studio-1768458030600.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev/login?monospaceUid=286635&embedded=0",
 ]
 
 app.add_middleware(
