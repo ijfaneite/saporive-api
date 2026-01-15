@@ -29,8 +29,3 @@ else
   echo "Asegúrate de que tu base de datos esté accesible y OpenSSL configurado correctamente."
   exit 1
 fi
-
-echo "Configuración de Prisma completada."
-
-echo "Iniciando servidor con Gunicorn..."
-exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
