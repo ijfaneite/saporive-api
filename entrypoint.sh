@@ -1,8 +1,5 @@
 #!/bin/bash
 echo "INSTALAR TODAS LAS DEPENDENCIAS...."
-pip install -r requirements.txt
-pip install pwdlib[argon2]
-pip install pwdlib[bcrypt]
 
 # Activar zona horaria
 export TZ="America/Caracas"
@@ -33,3 +30,7 @@ else
   echo "Asegúrate de que tu base de datos esté accesible y OpenSSL configurado correctamente."
   exit 1
 fi
+
+echo "Configuración de Prisma completada."
+echo "Iniciando servidor con Gunicorn..."
+exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
