@@ -13,9 +13,9 @@ prisma generate
 echo "Sincronizando base de datos (db push)..."
 python -m prisma db push
 
-#echo "Ejecutando migraciones..."
-# Usamos deploy en lugar de dev para entornos de producción/docker
-#prisma migrate deploy || echo "No hay migraciones nuevas o ya se aplicaron."
+echo "Ejecutando migraciones..."
+Usamos deploy en lugar de dev para entornos de producción/docker
+prisma migrate deploy || echo "No hay migraciones nuevas o ya se aplicaron."
 
 # Define un nombre para la migración. Puedes cambiarlo si lo deseas.
 MIGRATION_NAME="db"
