@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "Instalando pip install pwdlib[argon2]"
 
+npm install -g prisma
 
 # Activar zona horaria
 export TZ="America/Caracas"
@@ -35,4 +35,4 @@ fi
 echo "Configuración de Prisma completada."
 
 echo "Iniciando servidor con Gunicorn..."
-exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
