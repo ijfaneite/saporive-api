@@ -1,4 +1,7 @@
 #!/bin/bash
+echo "Instalando pip install pwdlib[argon2]"
+pip install pwdlib[argon2]
+pip install pwdlib[bcrypt]
 
 # Activar zona horaria
 export TZ="America/Caracas"
