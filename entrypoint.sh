@@ -1,16 +1,14 @@
 #!/bin/bash
 
-npm install -g prisma
-
 # Activar zona horaria
 export TZ="America/Caracas"
 
-echo "Generando cliente Prisma..."
+echo "Fetch Cliente... VE A LA FERRETERIA A COMPRAR LOS MATERIALES"
+prisma py fetch
+
+echo "Generando cliente Prisma... CONSTRUYE LA CASA"
 prisma generate
 
-echo "Fetch Cliente..."
-prisma py fetch
- 
 echo "Sincronizando base de datos (db push)..."
 python -m prisma db push
 
