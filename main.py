@@ -24,7 +24,9 @@ origins = [
     "http://127.0.0.1:9000",
     # Agrega aquí la URL de producción cuando la tengas (ej. https://tu-app.vercel.app)
     "https://6000-firebase-studio-1768458030600.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
+    https://studio.firebase.google.com/studio-7695827967
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
