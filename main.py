@@ -20,10 +20,9 @@ app = FastAPI()
 # --- CONFIGURACIÓN DE CORS ---
 # Define aquí las URLs de tu frontend (Next.js suele ser http://localhost:3000)
 origins = [
-    "http://localhost:9000",
-    "http://127.0.0.1:9000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     # Agrega aquí la URL de producción cuando la tengas (ej. https://tu-app.vercel.app)
-    "https://studio.firebase.google.com/studio-7695827967",
 ]
 
 app.add_middleware(
