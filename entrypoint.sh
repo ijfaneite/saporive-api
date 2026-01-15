@@ -1,6 +1,8 @@
 #!/bin/bash
 echo "INSTALAR TODAS LAS DEPENDENCIAS...."
 pip install -r requirements.txt
+pip install pwdlib[argon2]
+pip install pwdlib[bcrypt]
 
 # Activar zona horaria
 export TZ="America/Caracas"
