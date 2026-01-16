@@ -35,7 +35,7 @@ class EmpresaBase(BaseModel):
 
 class EmpresaUpdatePedidos(BaseModel):
     idPedido: int
-
+    
 class Empresa(EmpresaBase):
     idEmpresa: int
     class Config:
@@ -135,6 +135,7 @@ class PedidoCreate(PedidoBase):
 
 
 class Pedido(PedidoBase):
+    #asesor: Asesor | None = None
     cliente: Cliente | None = None # Added cliente to Pedido
 
     class Config:
