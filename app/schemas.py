@@ -91,9 +91,10 @@ class Producto(ProductoBase):
 
 class ClienteBase(BaseModel):
     Rif: str
-    Cliente: str
     Zona: str
     idAsesor: str
+    asesor: Asesor | None = None  # This will be the related Asesor object
+
     # Add timestamps and audit fields to ClienteBase
     createdAt: datetime | None = None
     updatedAt: datetime | None = None
@@ -111,7 +112,7 @@ class ClienteCreate(ClienteBase):
 
 class Cliente(ClienteBase):
     idCliente: str 
-    asesor: Asesor | None = None  # This will be the related Asesor object
+    Cliente: str
 
     class Config:
         from_attributes = True
@@ -135,7 +136,7 @@ class PedidoCreate(PedidoBase):
 
 
 class Pedido(PedidoBase):
-    #asesor: Asesor | None = None
+    asesor: Asesor | None = None
     cliente: Cliente | None = None # Added cliente to Pedido
 
     class Config:
