@@ -38,7 +38,7 @@ class Empresa(EmpresaBase):
     class Config:
         from_attributes = True
 
-        
+
 class AsesorBase(BaseModel):
     Asesor: str
     # Add timestamps and audit fields to AsesorBase
@@ -115,6 +115,8 @@ class Cliente(ClienteBase):
 
 
 class PedidoBase(BaseModel):
+    idPedido: str 
+    idEmpresa: int
     fechaPedido: datetime
     totalPedido: float
     idAsesor: str
@@ -130,13 +132,8 @@ class PedidoCreate(PedidoBase):
 
 
 class Pedido(PedidoBase):
-    idPedido: str 
     asesor: Asesor | None = None
     cliente: Cliente | None = None # Added cliente to Pedido
-    createdAt: datetime
-    updatedAt: datetime
-    createdBy: str
-    updatedBy: str
 
     class Config:
         from_attributes = True
