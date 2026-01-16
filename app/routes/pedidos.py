@@ -33,6 +33,8 @@ async def create_pedido(
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Cliente not found")
 
         created_pedido = await db.pedido.create(data={
+            "idPedido": pedido.idPedido,
+            "idEmpresa": pedido.idEmpresa,
             "fechaPedido": pedido.fechaPedido,
             "totalPedido": pedido.totalPedido,
             "Status": pedido.Status,
