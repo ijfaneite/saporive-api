@@ -90,7 +90,6 @@ class Producto(ProductoBase):
 
 
 class ClienteBase(BaseModel):
-    Rif: str
     Zona: str
     idAsesor: str
     asesor: Asesor | None = None  # This will be the related Asesor object
@@ -113,6 +112,7 @@ class ClienteCreate(ClienteBase):
 class Cliente(ClienteBase):
     idCliente: str 
     Cliente: str
+    Rif: str
 
     class Config:
         from_attributes = True
