@@ -93,5 +93,5 @@ model Empresa {
   idEmpresa    Int     @id @default(autoincrement()) // Campo ID autoincremental
   RazonSocial String
   idPedido Int
-  idRecibos Int
+  idRecibo Int
 }

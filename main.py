@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.routes import auth
+from app.routes.empresas import router as empresas_router
 from app.routes.asesores import router as asesores_router
 from app.routes.productos import router as productos_router
 from app.routes.clientes import router as clientes_router
@@ -27,6 +28,7 @@ app.add_middleware(
 
 # Registro de rutas (routers)
 app.include_router(auth.router)
+app.include_router(empresas_router, tags=["Empresas"])
 app.include_router(asesores_router, tags=["Asesores"])
 app.include_router(productos_router, tags=["Productos"])
 app.include_router(clientes_router, tags=["Clientes"])

@@ -54,6 +54,7 @@ CREATE TABLE "Cliente" (
 -- CreateTable
 CREATE TABLE "Pedido" (
     "idPedido" TEXT NOT NULL,
+    "idEmpresa" INTEGER NOT NULL,
     "fechaPedido" TIMESTAMP(3) NOT NULL,
     "totalPedido" DOUBLE PRECISION NOT NULL,
     "idAsesor" TEXT NOT NULL,
@@ -81,6 +82,16 @@ CREATE TABLE "DetallePedido" (
     "updatedBy" TEXT NOT NULL,
 
     CONSTRAINT "DetallePedido_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Empresa" (
+    "idEmpresa" SERIAL NOT NULL,
+    "RazonSocial" TEXT NOT NULL,
+    "idPedido" INTEGER NOT NULL,
+    "idRecibos" INTEGER NOT NULL,
+
+    CONSTRAINT "Empresa_pkey" PRIMARY KEY ("idEmpresa")
 );
 
 -- CreateIndex

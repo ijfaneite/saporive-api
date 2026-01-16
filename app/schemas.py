@@ -28,6 +28,16 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None = None
 
+class EmpresaBase(BaseModel):
+    RazonSocial: str
+    idPedido: int
+    idRecibo: int
+
+class Empresa(EmpresaBase):
+    idEmpresa: int
+    
+    class Config:
+        from_attributes = True
 
 class AsesorBase(BaseModel):
     Asesor: str
