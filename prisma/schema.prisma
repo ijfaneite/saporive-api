@@ -57,22 +57,7 @@ model Cliente {
   updatedBy  String
 }
 
-model Pedido {
-  idPedido    String          @id @unique
-  idEmpresa   Int
-  fechaPedido DateTime
-  totalPedido Float
-  idAsesor    String
-  asesor      Asesor          @relation(fields: [idAsesor], references: [idAsesor])
-  Status      String
-  idCliente   String    
-  cliente     Cliente         @relation(fields: [idCliente], references: [idCliente])
-  detalles    DetallePedido[] 
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  createdBy   String
-  updatedBy   String
-}
+
 
 model DetallePedido {
   id          String    @id @default(uuid())
@@ -94,4 +79,21 @@ model Empresa {
   RazonSocial String
   idPedido Int
   idRecibo Int
+}
+
+model Pedido {
+  idPedido    String          @id @unique
+  idEmpresa   Int
+  fechaPedido DateTime
+  totalPedido Float
+  idAsesor    String
+  asesor      Asesor          @relation(fields: [idAsesor], references: [idAsesor])
+  Status      String
+  idCliente   String    
+  cliente     Cliente         @relation(fields: [idCliente], references: [idCliente])
+  detalles    DetallePedido 
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  createdBy   String
+  updatedBy   String
 }
