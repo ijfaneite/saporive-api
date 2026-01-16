@@ -33,6 +33,9 @@ class EmpresaBase(BaseModel):
     idPedido: int
     idRecibo: int # Debe ser igual al schema.prisma 
 
+class EmpresaUpdatePedidos(BaseModel):
+    idPedido: int
+    
 class Empresa(EmpresaBase):
     idEmpresa: int
     class Config:

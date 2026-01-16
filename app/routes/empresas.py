@@ -73,7 +73,7 @@ async def update_empresa(
 @router.put("/empresas/pedidos/{empresa_id}", response_model=schemas.Empresa)
 async def update_empresa(
     empresa_id: int,
-    empresa: schemas.EmpresaBase,
+    empresa: schemas.EmpresaUpdatePedidos,
     db: Prisma = Depends(get_prisma_client),
     current_user: schemas.User = Depends(get_current_active_user)
 ):
