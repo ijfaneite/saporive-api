@@ -90,7 +90,7 @@ model DetallePedido {
 }
 
 model Empresa {
-  idEmpresa    Int     @id @default(autoincrement()) // Campo ID autoincremental
+  idEmpresa    Int     @id @unique @default(autoincrement()) // Campo ID autoincremental
   RazonSocial String
   idPedido Int
   idRecibo Int
