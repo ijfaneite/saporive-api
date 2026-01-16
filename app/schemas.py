@@ -31,14 +31,14 @@ class TokenData(BaseModel):
 class EmpresaBase(BaseModel):
     RazonSocial: str
     idPedido: int
-    idRecibo: int
+    idRecibo: int # Debe ser igual al schema.prisma 
 
 class Empresa(EmpresaBase):
     idEmpresa: int
-    
     class Config:
         from_attributes = True
 
+        
 class AsesorBase(BaseModel):
     Asesor: str
     # Add timestamps and audit fields to AsesorBase
