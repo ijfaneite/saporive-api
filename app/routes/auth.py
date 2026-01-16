@@ -139,6 +139,13 @@ async def create_user(user: schemas.UserCreate, db: Prisma = Depends(get_prisma_
         }
     )
 
+@router.get("/users/me", response_model=schemas.User)
+async def read_users_me(
+    current_user: Annotated[schemas.User, Depends(get_current_active_user)]
+    ):
+    # Esta función usa el token enviado en los headers para buscar al usuario
+    return current_user
+
     new_user.createdAt = hora_local
     new_user.updatedAt = hora_local
     return new_user
