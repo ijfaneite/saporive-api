@@ -1,142 +1,125 @@
 from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
+from typing import List, Optional
 
-
+# --- USUARIO ---
 class UserLogin(BaseModel):
     username: str
     password: str
 
-
-class User(BaseModel):  # Assuming this is the schema for the User model (from a previous step)
+class User(BaseModel):
     username: str
-    # Add timestamps for the User model
     createdAt: datetime
     updatedAt: datetime
-
+    class Config:
+        from_attributes = True
 
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
 
-
 class Token(BaseModel):
     access_token: str
     token_type: str
 
-
 class TokenData(BaseModel):
-    username: str | None = None
+    username: Optional[str] = None
 
+# --- EMPRESA ---
 class EmpresaBase(BaseModel):
     RazonSocial: str
     idPedido: int
-    idRecibo: int # Debe ser igual al schema.prisma 
+    idRecibo: int
 
-class EmpresaUpdatePedidos(BaseModel):
-    idPedido: int
-    
 class Empresa(EmpresaBase):
     idEmpresa: int
     class Config:
         from_attributes = True
 
-
+# --- ASESOR ---
 class AsesorBase(BaseModel):
     Asesor: str
-    # Add timestamps and audit fields to AsesorBase
-    createdAt: datetime | None = None
-    updatedAt: datetime | None = None
-    createdBy: str | None = None
-    updatedBy: str | None = None
-
+    createdAt: Optional[datetime] = None
+    updatedAt: Optional[datetime] = None
+    createdBy: Optional[str] = None
+    updatedBy: Optional[str] = None
 
 class Asesor(AsesorBase):
-    idAsesor: str   # Prisma returns 'id' by default for primary keys
-
+    idAsesor: str
     class Config:
         from_attributes = True
 
 class AsesorCreate(Asesor):
-    # These fields are set automatically by the backend, so they should not be required on creation
     createdAt: datetime = Field(None, exclude=True)
     updatedAt: datetime = Field(None, exclude=True)
     createdBy: str = Field(None, exclude=True)
     updatedBy: str = Field(None, exclude=True)
 
+# --- PRODUCTO ---
 class ProductoBase(BaseModel):
     Producto: str
     Precio: float
-    # Add timestamps and audit fields to ProductoBase
-    createdAt: datetime | None = None
-    updatedAt: datetime | None = None
-    createdBy: str | None = None
-    updatedBy: str | None = None
-
-
-class ProductoCreate(ProductoBase):
-    # These fields are set automatically by the backend, so they should not be required on creation
-    createdAt: datetime = Field(None, exclude=True)
-    updatedAt: datetime = Field(None, exclude=True)
-    createdBy: str = Field(None, exclude=True)
-    updatedBy: str = Field(None, exclude=True)
-
+    createdAt: Optional[datetime] = None
+    updatedAt: Optional[datetime] = None
+    createdBy: Optional[str] = None
+    updatedBy: Optional[str] = None
 
 class Producto(ProductoBase):
-    idProducto: str 
-
+    idProducto: str
     class Config:
         from_attributes = True
 
-
-class ClienteBase(BaseModel):
-    Zona: str
-    idAsesor: str
-    asesor: Asesor | None = None  # This will be the related Asesor object
-
-    # Add timestamps and audit fields to ClienteBase
-    createdAt: datetime | None = None
-    updatedAt: datetime | None = None
-    createdBy: str | None = None
-    updatedBy: str | None = None
-
-
-class ClienteCreate(ClienteBase):
-    # These fields are set automatically by the backend, so they should not be required on creation
+class ProductoCreate(ProductoBase):
     createdAt: datetime = Field(None, exclude=True)
     updatedAt: datetime = Field(None, exclude=True)
     createdBy: str = Field(None, exclude=True)
     updatedBy: str = Field(None, exclude=True)
 
-
-class Cliente(ClienteBase):
-    idCliente: str 
+# --- CLIENTE ---
+class ClienteBase(BaseModel):
     Cliente: str
     Rif: str
+    Zona: str
+    idAsesor: str
+    createdAt: Optional[datetime] = None
+    updatedAt: Optional[datetime] = None
+    createdBy: Optional[str] = None
+    updatedBy: Optional[str] = None
 
-
+class Cliente(ClienteBase):
+    idCliente: str
+    asesor: Optional[Asesor] = None
     class Config:
         from_attributes = True
 
+class ClienteCreate(ClienteBase):
+    idCliente: str
+    createdAt: datetime = Field(None, exclude=True)
+    updatedAt: datetime = Field(None, exclude=True)
+    createdBy: str = Field(None, exclude=True)
+    updatedBy: str = Field(None, exclude=True)
+
+# --- DETALLE PEDIDO ---
 class DetallePedidoBase(BaseModel):
-    idPedido: str
     idProducto: str
     Precio: float
     Cantidad: int
 
 class DetallePedidoCreate(DetallePedidoBase):
-    # Exclude auto-generated fields from creation input
+    # Campos que el backend calcula o genera
     Total: float = Field(None, exclude=True)
     createdAt: datetime = Field(None, exclude=True)
     updatedAt: datetime = Field(None, exclude=True)
     createdBy: str = Field(None, exclude=True)
     updatedBy: str = Field(None, exclude=True)
 
-
 class DetallePedido(DetallePedidoBase):
-    id: str = Field(..., alias='id')
-    Total: float # Total is included in the response model
-    producto: Producto | None = None
+    id: str
+    idPedido: str
+    Total: float
+    # Relación opcional para evitar recursión infinita
+    producto: Optional[Producto] = None
     createdAt: datetime
     updatedAt: datetime
     createdBy: str
@@ -145,26 +128,42 @@ class DetallePedido(DetallePedidoBase):
     class Config:
         from_attributes = True
 
+# --- PEDIDO ---
 class PedidoBase(BaseModel):
     idPedido: str 
     idEmpresa: int
     fechaPedido: datetime
     totalPedido: float
     idAsesor: str
-    idCliente: str # Added idCliente to PedidoBase
+    idCliente: str
     Status: str
 
 class PedidoCreate(PedidoBase):
+    # CLAVE: Recibe la lista de detalles desde el frontend
+    detalles: List[DetallePedidoBase]
     createdAt: datetime = Field(None, exclude=True)
     updatedAt: datetime = Field(None, exclude=True)
     createdBy: str = Field(None, exclude=True)
     updatedBy: str = Field(None, exclude=True)
 
-
 class Pedido(PedidoBase):
-    asesor: Asesor | None = None
-    cliente: Cliente | None = None # Added cliente to Pedido
-    detalles: DetallePedido | None = None
+    asesor: Optional[Asesor] = None
+    cliente: Optional[Cliente] = None
+    # CLAVE: Devuelve la lista completa de detalles
+    detalles: List[DetallePedido] = []
+    createdAt: datetime
+    updatedAt: datetime
+    createdBy: str
+    updatedBy: str
 
     class Config:
         from_attributes = True
+
+
+class EmpresaUpdatePedidos(BaseModel):
+    idPedido: int
+    
+# --- RECONSTRUCCIÓN PARA REFERENCIAS CRUZADAS ---
+# Esto permite que Pedido reconozca a DetallePedido aunque estén en el mismo archivo
+Pedido.model_rebuild()
+DetallePedido.model_rebuild()
