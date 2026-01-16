@@ -13,9 +13,9 @@ async def insertar_empresa():
         # Nota: 'idEmpresa' no se envía porque es autoincremental
         nueva_empresa = await db.empresa.create(
             data={
-                'RazonSocial': 'Sapori Venezuela, CA',
+                'RazonSocial': 'Sapori, CA',
                 'idPedido': 1,
-                'idRecibos': 1
+                'idRecibo': 1
             }
         )
         
