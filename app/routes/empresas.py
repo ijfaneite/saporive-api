@@ -23,8 +23,8 @@ async def create_empresa(
 ):
     try:
         # Check if the idEmpresa exists
-        asesor_exists = await db.asesor.find_unique(where={'idEmpresa': empresa.idEmpresa})
-        if not asesor_exists:
+        empresa_exists = await db.empresa.find_unique(where={'idEmpresa': empresa.idEmpresa})
+        if not empresa_exists:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Empresa not found")
 
         created_empresa = await db.empresa.create(data={
@@ -42,7 +42,7 @@ async def read_empresas(
     current_user: schemas.User = Depends(get_current_active_user),
     db: Prisma = Depends(get_prisma_client)
 ):
-    empresas = await db.empresa.find_many(include={'asesor': True})
+    empresas = await db.empresa.find_many(include={'empresa': True})
     return empresas
 
 
@@ -52,7 +52,7 @@ async def read_empresa(
     current_user: schemas.User = Depends(get_current_active_user),
     db: Prisma = Depends(get_prisma_client)
 ):
-    empresa = await db.empresa.find_unique(where={'idEmpresa': empresa_id}, include={'asesor': True})
+    empresa = await db.empresa.find_unique(where={'idEmpresa': empresa_id}, include={'empresa': True})
     if empresa is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="empresa not found")
     return empresa
@@ -68,8 +68,8 @@ async def update_empresa(
     try:
         # Check if the idEmpresa exists if it's being updated
         if empresa.idEmpresa:
-            asesor_exists = await db.asesor.find_unique(where={'idEmpresa': empresa.idEmpresa})
-            if not asesor_exists:
+            empresa_exists = await db.empresa.find_unique(where={'idEmpresa': empresa.idEmpresa})
+            if not empresa_exists:
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Empresa not found")
 
         updated_empresa = await db.empresa.update(
