@@ -166,6 +166,7 @@ class DetallePedidoCreate(DetallePedidoBase):
 
 class DetallePedido(DetallePedidoBase):
     id: str # UUID generado por Prisma
+    idPedido: str
     Total: float
     # Relaciones
     pedido: Optional["Pedido"] = None
