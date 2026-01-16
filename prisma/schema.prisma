@@ -62,7 +62,6 @@ model Cliente {
 model DetallePedido {
   id          String    @id @default(uuid())
   idPedido    String
-  pedido      Pedido    @relation(fields: [idPedido], references: [idPedido])
   idProducto  String
   producto    Producto  @relation(fields: [idProducto], references: [idProducto])
   Precio      Float
@@ -91,7 +90,7 @@ model Pedido {
   Status      String
   idCliente   String    
   cliente     Cliente         @relation(fields: [idCliente], references: [idCliente])
-  detalles    DetallePedido 
+  detalles    DetallePedido   @relation(fields: [idPedido], references: [idPedido])
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   createdBy   String
