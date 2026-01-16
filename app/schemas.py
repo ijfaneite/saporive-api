@@ -114,32 +114,11 @@ class Cliente(ClienteBase):
     Cliente: str
     Rif: str
 
+
     class Config:
         from_attributes = True
 
 
-class PedidoBase(BaseModel):
-    idPedido: str 
-    idEmpresa: int
-    fechaPedido: datetime
-    totalPedido: float
-    idAsesor: str
-    idCliente: str # Added idCliente to PedidoBase
-    Status: str
-
-
-class PedidoCreate(PedidoBase):
-    createdAt: datetime = Field(None, exclude=True)
-    updatedAt: datetime = Field(None, exclude=True)
-    createdBy: str = Field(None, exclude=True)
-    updatedBy: str = Field(None, exclude=True)
-
-
-class Pedido(PedidoBase):
-    asesor: Asesor | None = None
-    cliente: Cliente | None = None # Added cliente to Pedido
-    class Config:
-        from_attributes = True
 
 
 class DetallePedidoBase(BaseModel):
@@ -160,12 +139,35 @@ class DetallePedidoCreate(DetallePedidoBase):
 class DetallePedido(DetallePedidoBase):
     id: str = Field(..., alias='id')
     Total: float # Total is included in the response model
-    pedido: Pedido | None = None
     producto: Producto | None = None
     createdAt: datetime
     updatedAt: datetime
     createdBy: str
     updatedBy: str
+
+    class Config:
+        from_attributes = True
+
+class PedidoBase(BaseModel):
+    idPedido: str 
+    idEmpresa: int
+    fechaPedido: datetime
+    totalPedido: float
+    idAsesor: str
+    idCliente: str # Added idCliente to PedidoBase
+    Status: str
+
+class PedidoCreate(PedidoBase):
+    createdAt: datetime = Field(None, exclude=True)
+    updatedAt: datetime = Field(None, exclude=True)
+    createdBy: str = Field(None, exclude=True)
+    updatedBy: str = Field(None, exclude=True)
+
+
+class Pedido(PedidoBase):
+    asesor: Asesor | None = None
+    cliente: Cliente | None = None # Added cliente to Pedido
+    detalles: DetallePedido | None = None
 
     class Config:
         from_attributes = True
