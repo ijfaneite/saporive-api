@@ -118,9 +118,6 @@ class Cliente(ClienteBase):
     class Config:
         from_attributes = True
 
-
-
-
 class DetallePedidoBase(BaseModel):
     idPedido: str
     idProducto: str
