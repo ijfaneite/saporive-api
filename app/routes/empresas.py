@@ -70,6 +70,27 @@ async def update_empresa(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Error al actualizar la empresa")
 
+@router.put("/empresas/pedidos/{empresa_id}", response_model=schemas.Empresa)
+async def update_empresa(
+    empresa_id: int,
+    empresa: schemas.EmpresaBase,
+    db: Prisma = Depends(get_prisma_client),
+    current_user: schemas.User = Depends(get_current_active_user)
+):
+    try:
+        updated = await db.empresa.update(
+            where={'idEmpresa': empresa_id},
+            data={
+                'idPedido': empresa.idPedido+1
+            }
+        )
+        return updated
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Error al actualizar la empresa")
+
+
+
+
 @router.delete("/empresas/{empresa_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_empresa(
     empresa_id: int,
