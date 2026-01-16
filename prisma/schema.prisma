@@ -59,6 +59,7 @@ model Cliente {
 
 model Pedido {
   idPedido    String    @id @unique
+  idEmpresa   Int
   fechaPedido DateTime
   totalPedido Float
   idAsesor    String
@@ -86,4 +87,11 @@ model DetallePedido {
   updatedAt   DateTime  @updatedAt
   createdBy   String
   updatedBy   String
+}
+
+model Empresa {
+  idEmpresa    Int     @id @default(autoincrement()) // Campo ID autoincremental
+  RazonSocial String
+  idPedido Int
+  idRecibos Int
 }
