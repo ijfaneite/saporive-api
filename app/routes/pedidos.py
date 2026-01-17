@@ -24,9 +24,9 @@ async def create_pedido(
 ):
     try:
         # Validación de integridad: ¿Existe el asesor y el cliente?
-        async with db.batch_() as batch:
-            batch.asesor.find_unique(where={'idAsesor': pedido.idAsesor})
-            batch.cliente.find_unique(where={'idCliente': pedido.idCliente})
+        #async with db.batch_() as batch:
+        #    batch.asesor.find_unique(where={'idAsesor': pedido.idAsesor})
+        #    batch.cliente.find_unique(where={'idCliente': pedido.idCliente})
 
         # Creación atómica (Pedido + Detalles)
         created_pedido = await db.pedido.create(
