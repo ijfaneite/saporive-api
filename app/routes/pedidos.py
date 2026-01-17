@@ -110,7 +110,7 @@ async def update_pedido(
                 "asesor": {"connect": {"idAsesor": pedido.idAsesor}},
                 "cliente": {"connect": {"idCliente": pedido.idCliente}},
                 "detalles": {
-                    #"delete_many": {}, # Limpia detalles viejos
+                    "delete_many": {}, # Limpia detalles viejos
                     "create": [        # Inserta los nuevos
                         {
                             "idProducto": d.idProducto,
