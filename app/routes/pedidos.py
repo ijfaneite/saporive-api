@@ -95,41 +95,37 @@ async def update_pedido(
     db: Prisma = Depends(get_prisma_client)
 ):
     try:
-        # Verificamos si existe antes de intentar el update complejo
-        existente = await db.pedido.find_unique(where={'idPedido': pedido_id})
-        if not existente:
-            raise HTTPException(status_code=404, detail="Pedido no encontrado")
-        # 1. Borrar detalles asociados al pedido_id
+        async with db.tx() as transaction:
+            # 1. Borrar detalles asociados al pedido_id
             await transaction.detallepedido.delete_many(
                 where={'idPedido': pedido_id}
             )
 
-        # 2. Actualizar el pedido y crear los nuevos detalles
-        updated_pedido = await db.pedido.update(
-            where={'idPedido': pedido_id},
-            data={
-                "fechaPedido": pedido.fechaPedido,
-                "totalPedido": pedido.totalPedido,
-                "Status": pedido.Status,
-                "updatedBy": current_user.username,
-                "asesor": {"connect": {"idAsesor": pedido.idAsesor}},
-                "cliente": {"connect": {"idCliente": pedido.idCliente}},
-                "detalles": {
-                    #"delete_many": {}, # Limpia detalles viejos
-                    "create": [        # Inserta los nuevos
-                        {
-                            "idProducto": d.idProducto,
-                            "Precio": d.Precio,
-                            "Cantidad": d.Cantidad,
-                            "Total": d.Precio * d.Cantidad,
-                            "createdBy": current_user.username,
-                            "updatedBy": current_user.username
-                        } for d in pedido.detalles
-                    ]
-                }
-            },
-            include={"detalles": True, "asesor": True, "cliente": True}
-        )
+            # 2. Actualizar el pedido y crear los nuevos detalles
+            updated_pedido = await transaction.pedido.update(
+                where={'idPedido': pedido_id},
+                data={
+                    "fechaPedido": pedido.fechaPedido,
+                    "totalPedido": pedido.totalPedido,
+                    "Status": pedido.Status,
+                    "updatedBy": current_user.username,
+                    "asesor": {"connect": {"idAsesor": pedido.idAsesor}},
+                    "cliente": {"connect": {"idCliente": pedido.idCliente}},
+                    "detalles": {
+                        "create": [
+                            {
+                                "idProducto": d.idProducto,
+                                "Precio": d.Precio,
+                                "Cantidad": d.Cantidad,
+                                "Total": d.Precio * d.Cantidad,
+                                "createdBy": current_user.username,
+                                "updatedBy": current_user.username
+                            } for d in pedido.detalles
+                        ]
+                    }
+                },
+                include={"detalles": True, "asesor": True, "cliente": True}
+            )
         return updated_pedido
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error al actualizar: {str(e)}")
