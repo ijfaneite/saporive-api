@@ -99,7 +99,12 @@ async def update_pedido(
         existente = await db.pedido.find_unique(where={'idPedido': pedido_id})
         if not existente:
             raise HTTPException(status_code=404, detail="Pedido no encontrado")
+        # 1. Borrar detalles asociados al pedido_id
+            await transaction.detallepedido.delete_many(
+                where={'idPedido': pedido_id}
+            )
 
+        # 2. Actualizar el pedido y crear los nuevos detalles
         updated_pedido = await db.pedido.update(
             where={'idPedido': pedido_id},
             data={
