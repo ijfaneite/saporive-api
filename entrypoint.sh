@@ -4,8 +4,8 @@ echo "INSTALAR TODAS LAS DEPENDENCIAS...."
 # Activar zona horaria
 export TZ="America/Caracas"
 
-#echo "Fetch Cliente... VE A LA FERRETERIA A COMPRAR LOS MATERIALES"
-#prisma py fetch
+echo "Fetch Cliente... VE A LA FERRETERIA A COMPRAR LOS MATERIALES"
+prisma py fetch
 
 echo "Sincronizando base de datos (db push)..."
 python -m prisma db push

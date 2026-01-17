@@ -62,7 +62,8 @@ model Cliente {
 model DetallePedido {
   id          String    @id @default(uuid())
   idPedido    String 
-  pedido      Pedido    @relation(fields: [idPedido], references: [idPedido], onDelete: Cascade) // Agrega esto  idProducto  String
+  pedido      Pedido    @relation(fields: [idPedido], references: [idPedido], onDelete: Cascade) // Agrega esto  
+  idProducto  String
   producto    Producto  @relation(fields: [idProducto], references: [idProducto])
   Precio      Float
   Cantidad    Int
